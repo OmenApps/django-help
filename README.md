@@ -129,7 +129,7 @@ django-help uses django-translated-fields to provide robust multi-language suppo
 
 ### Configuration
 
-1. Define your project's languages in your Django settings:
+1. Define your project's languages in your project's settings, per Django's [translations documentation]:
 
 ```python
 LANGUAGE_CODE = 'en'
@@ -321,3 +321,4 @@ This project was generated from [@OmenApps]'s [Cookiecutter Django Package] temp
 [license]: https://github.com/OmenApps/django-help/blob/main/LICENSE
 [contributor guide]: https://github.com/OmenApps/django-help/blob/main/CONTRIBUTING.md
 [command-line reference]: https://django-help.readthedocs.io/en/latest/usage.html
+[translations documentation]: https://docs.djangoproject.com/en/stable/topics/i18n/translation/
