@@ -132,15 +132,18 @@ django-help uses django-translated-fields to provide robust multi-language suppo
 1. Define your project's languages in your Django settings:
 
 ```python
+LANGUAGE_CODE = 'en'
 LANGUAGES = [
     ('en', 'English'),
     ('es', 'Spanish'),
     ('fr', 'French'),
-    # Add more languages as needed
+    # Add languages as needed
 ]
 ```
 
 2. Configure additional language settings in `DJANGO_HELP_CONFIG`:
+
+This configuration allows you to specify which languages are available for translation in django-help. To make translations for each language required or optional in models and forms, set the `blank` key for each language:
 
 ```python
 DJANGO_HELP_CONFIG = {
@@ -215,6 +218,8 @@ tags: password, account, security
 
 ### Bulk Import/Export
 
+__(This feature is planned for a future release.)__
+
 For large-scale import or export operations, you can use management commands:
 
 ```console
@@ -263,6 +268,7 @@ Override default templates by creating your own in your project's template direc
 - `django_help/pages-index.html`: Main help page
 - `django_help/pages-category.html`: Category listing page
 - `django_help/fragments/modal_content.html`: Article display modal
+- `django_help/markdownx/widget.html`: Markdown editor widget
 
 ### Extending Models
 
