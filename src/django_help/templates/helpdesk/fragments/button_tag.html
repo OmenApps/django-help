@@ -1,0 +1,8 @@
+<button class="btn rounded-pill btn-icon h-px-30 w-px-30"
+        data-hx-get="{% url 'django_help:get_articles' tag=tag %}"
+        data-hx-target="#htmx-dialog-lg"
+        type="button"
+        title="{% translate title %}"
+>
+    <i class="fa-light fa-circle-info"></i>
+</button>

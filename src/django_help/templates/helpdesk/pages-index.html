@@ -1,0 +1,325 @@
+{% extends layout_path %}
+
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% translate "Help" %} - {% translate "Home" %}{% endblock %}
+
+{% block vendor_css %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'vendor/libs/perfect-scrollbar/perfect-scrollbar.css' %}" />
+    <link rel="stylesheet" href="{% static 'vendor/libs/typeahead-js/typeahead.css' %}" />
+{% endblock vendor_css %}
+
+{% block page_css %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'vendor/css/pages/page-index.css' %}" />
+    <link rel="stylesheet" href="{% static 'django_help/css/styles.css' %}" />
+{% endblock page_css %}
+
+{% block content %}
+    <h4 class="py-3 mb-4">
+        <span class="text-muted fw-light">{% translate "Help" %} /</span> {% translate "Home" %}
+    </h4>
+
+    <div class="card card-action overflow-hidden">
+        <!-- Help Header -->
+        <div class="help-center-header d-flex flex-column justify-content-center align-items-center">
+            <h3 class="text-center zindex-1">{% translate "Welcome to Help" %}</h3>
+            <form method="get" action=".">
+                <div class="my-3 input-group input-group-merge zindex-1">
+                    <input type="text"
+                           name="search"
+                           class="form-control form-control-lg text-center"
+                           value="{{ request.GET.search }}"
+                           placeholder="{% trans "Search by tags" %}"
+                           aria-label="{% trans "Search" %}"
+                    />
+                </div>
+            </form>
+            <p class="text-center zindex-1 px-3 mb-0">{% translate "Search our knowledge base for answers to your questions" %}</p>
+
+            {% if user.is_staff %}
+                <div>
+                    <button class="btn btn-primary mt-2"
+                            type="button"
+                            hx-get="{% url 'django_help:create_article' %}"
+                            hx-target="#htmx-dialog-lg"
+                    >
+                        {% translate "Create Article" %}
+                    </button>
+                </div>
+            {% endif %}
+
+        </div>
+        <!-- /Help Header -->
+
+        <!-- Search Results -->
+        {% if articles %}
+            <div class="help-center-knowledge-base help-center-bg-alt py-5">
+                <div class="container-xl py-2">
+                    <h4 class="text-center pb-4">{% translate "Search Results" %}</h4>
+                    <div class="row">
+                        <div class="col-lg-10 mx-auto">
+                            <div class="row">
+
+                                {% for article in articles %}
+                                    <div class="col-md-4 col-sm-6 mb-4">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="d-flex align-items-center mb-4">
+                                                    <span class="badge bg-label-success p-2 rounded me-2">
+                                                        <i class="fa-solid {% if article.icon %}{{ article.icon }}{% else %}fa-circle-info text-success{% endif %} fa-3x"></i>
+                                                    </span>
+                                                    <h5 class="fw-semibold mt-3 ms-1">{{ article.title }}</h5>
+                                                </div>
+                                                <p> {{ article.subtitle }} </p>
+                                                <p class="mb-0 fw-semibold">
+                                                    <a href="#"
+                                                       hx-get="{% url 'django_help:view_article' article_slug=article.slug %}"
+                                                       hx-target="#htmx-dialog-lg"
+                                                    >
+                                                        {% translate "Read Article" %}
+                                                    </a>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+
+                                {% if is_paginated %}
+                                    <div class="col-12">
+                                        <div class="d-flex justify-content-center">
+                                            <nav aria-label="{% trans "Page navigation" %}">
+                                                <ul class="pagination justify-content-center">
+                                                    <li class="page-item{% if not articles.has_previous %} disabled{% endif %}">
+                                                        <a class="page-link"
+                                                           href="{% if articles.has_previous %}{% query_string page=articles.previous_page_number %}{% else %}#{% endif %}"
+                                                           aria-label="{% trans "Previous" %}"
+                                                        >
+                                                            <span aria-hidden="true">&laquo;</span>
+                                                        </a>
+                                                    </li>
+                                                    {% for page in articles.paginator.page_range %}
+                                                        <li class="page-item{% if page == articles.number %} active{% endif %}">
+                                                            <a class="page-link"
+                                                               href="{% query_string page=page %}"
+                                                            >
+                                                                {{ page }}
+                                                            </a>
+                                                        </li>
+                                                    {% endfor %}
+                                                    <li class="page-item{% if not articles.has_next %} disabled{% endif %}">
+                                                        <a class="page-link"
+                                                           href="{% if articles.has_next %}{% query_string page=articles.next_page_number %}{% else %}#{% endif %}"
+                                                           aria-label="{% trans "Next" %}"
+                                                        >
+                                                            <span aria-hidden="true">&raquo;</span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </nav>
+                                        </div>
+                                    </div>
+                                {% endif %}
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        <!-- /Search Results -->
+
+        <!-- Popular Articles -->
+        <div class="help-center-popular-articles py-5">
+            <div class="container-xl">
+                <h4 class="text-center mt-2 pb-3">{% translate "Popular Articles" %}</h4>
+                <div class="row">
+                    <div class="col-lg-10 mx-auto">
+                        <div class="row mb-3">
+
+                            {% for article in popular_articles %}
+                                <div class="col-md-4{% if not forloop.counter == 3 %} mb-md-0 mb-4{% endif %}">
+                                    <div class="card-body text-center">
+                                        <i class="fa-solid {% if article.icon %}{{ article.icon }}{% else %}fa-circle-info text-success{% endif %} fa-3x mb-2"
+                                           title="{{ article.title }}">
+                                        </i>
+                                        <h5 class="mb-4">{{ article.title }}</h5>
+                                        <p> {{ article.subtitle }} </p>
+                                        <button class="btn btn-label-primary"
+                                                hx-get="{% url 'django_help:view_article' article_slug=article.slug %}"
+                                                hx-target="#htmx-dialog-lg"
+                                                type="button"
+                                        >
+                                            {% translate "Read..." %}
+                                        </button>
+                                    </div>
+                                </div>
+                            {% endfor %}
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Popular Articles -->
+
+        <!-- Categories -->
+        <div class="help-center-knowledge-base help-center-bg-alt py-5">
+            <div class="container-xl py-2">
+                <h4 class="text-center pb-4">{% translate "Knowledge Base" %}</h4>
+                <div class="row">
+                    <div class="col-lg-10 mx-auto">
+                        <div class="row">
+
+                            {% for category in categories %}
+                                <div class="col-md-4 col-sm-6 mb-4">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="d-flex align-items-center mb-4">
+                                                <span class="badge bg-label-success p-2 rounded me-2">
+                                                    <i class="fa-solid {% if category.icon %}{{ category.icon }}{% else %}fa-circle-info text-success{% endif %} fa-3x"></i>
+                                                </span>
+                                                <h5 class="fw-semibold mt-3 ms-1">{{ category.title }}</h5>
+                                            </div>
+                                            <ul>
+                                                {% for article in category.articles.all|slice:":3" %}
+                                                    <li class="text-primary py-1">
+                                                        <a href="#"
+                                                           hx-get="{% url 'django_help:view_article' article_slug=article.slug %}"
+                                                           hx-target="#htmx-dialog-lg"
+                                                        >
+                                                            {{ article.title }}
+                                                        </a>
+                                                    </li>
+                                                {% endfor %}
+                                            </ul>
+                                            <p class="mb-0 fw-semibold">
+                                                <a href="{% url 'django_help:category' category_slug=category.slug %}">
+                                                    {{ category.number_of_articles }} {% translate "articles" %}
+                                                </a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Categories -->
+
+        <!-- Keep Learning -->
+        <div class="help-center-keep-learning py-5">
+            <div class="container-xl my-3">
+                <h4 class="text-center pb-4">{% translate "Keep Learning" %}</h4>
+                <div class="row">
+                    <div class="col-lg-10 mx-auto">
+                        <div class="row">
+
+                            {% for article in highlighted_articles %}
+                                <div class="col-md-4{% if not forloop.counter == 3 %} mb-md-0 mb-4{% endif %} text-center">
+                                    <i class="fa-solid {% if article.icon %}{{ article.icon }}{% else %}fa-circle-info text-success{% endif %} fa-3x"
+                                       title="{{ article.title }}">
+                                    </i>
+                                    <h5 class="my-3">{{ article.title }}</h5>
+                                    <p class="mb-1">{{ article.subtitle }}</p>
+                                    <a href="#"
+                                       class="d-flex align-items-center justify-content-center mt-2"
+                                       hx-get="{% url 'django_help:view_article' article_slug=article.slug %}"
+                                       hx-target="#htmx-dialog-lg"
+                                    >
+                                        <span class="align-middle me-1">{% translate "Learn More" %}</span>
+                                        <i class="mdi mdi-arrow-right-thin-circle-outline"></i>
+                                    </a>
+                                </div>
+                            {% endfor %}
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Keep Learning -->
+
+        <!-- Help Area -->
+        <div class="help-center-contact-us help-center-bg-alt">
+            <div class="container-xl">
+                <div class="row justify-content-center py-5 my-3">
+                    <div class="col-md-8 col-lg-6 text-center">
+                        <h4>{% translate "Need more help?" %}</h4>
+                        <p class="mb-4">
+                            {% translate "We're here to help. Get in touch and we'll get back to you as soon as we can." %}
+                        </p>
+                        <div class="d-flex justify-content-center flex-wrap gap-4">
+                            <a href="javascript:void(0);" class="btn btn-label-primary">{% translate "Contact Us" %}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Help Area -->
+    </div>
+
+    {% if user.is_staff %}
+
+        <div>
+            <button class="btn btn-primary"
+                    hx-get="{% url 'django_help:get_articles' category="maintenance" %}"
+                    hx-target="#htmx-dialog-lg"
+                    type="button"
+                    title="{% translate "Category" %}"
+            >
+                {% translate "Category" %}
+            </button>
+
+            <button class="btn btn-primary"
+                    hx-get="{% url 'django_help:get_articles' category="non-existent" %}"
+                    hx-target="#htmx-dialog-lg"
+                    type="button"
+                    title="{% translate "Category (non-existent)" %}"
+            >
+                {% translate "Category (non-existent)" %}
+            </button>
+
+            <button class="btn btn-primary"
+                    hx-get="{% url 'django_help:get_articles' slug="asset-register-best-practices" %}"
+                    hx-target="#htmx-dialog-lg"
+                    type="button"
+                    title="{% translate "Slug 'asset-register-best-practices'" %}"
+            >
+                {% translate "Slug 'asset-register-best-practices'" %}
+            </button>
+
+            <button class="btn btn-primary"
+                    hx-get="{% url 'django_help:get_articles' tag="getting-started" %}"
+                    hx-target="#htmx-dialog-lg"
+                    type="button"
+                    title="{% translate "Tag 'getting-started'" %}"
+            >
+                {% translate "Tag 'getting-started'" %}
+            </button>
+
+            <button class="btn btn-primary"
+                    hx-get="{% url 'django_help:get_articles' %}"
+                    hx-target="#htmx-dialog-lg"
+                    type="button"
+                    title="{% translate "Path" %}"
+            >
+                {% translate "Path" %}
+            </button>
+        </div>
+
+        <div>
+            {% django_help_category "maintenance" title="Maintenance Article" %}
+            {% django_help_slug "asset-register-best-practices" title="Asset Register - Best Practices" %}
+            {% django_help_tag "getting-started" title="Tag 'getting-started'" %}
+            {% django_help_current_path title="Related Articles" %}
+        </div>
+
+    {% endif %}
+
+{% endblock %}

@@ -1,0 +1,16 @@
+.large-checkbox {
+    width: 20px; 
+    height: 20px; 
+    cursor: pointer;
+}
+
+.markdownx .markdownx-preview {
+    border: 1px solid #d7dfdd;
+    border-radius: 5px;
+    background-color: #f8f9fa;
+    overflow-y: auto;
+    height: 300px; /* Match the textarea height */
+    padding: 15px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}

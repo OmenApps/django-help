@@ -1,0 +1,29 @@
+{% extends layout_path %}
+
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% translate "Help" %} - {% translate "Categories" %}{% endblock %}
+
+
+{% block vendor_css %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'vendor/libs/perfect-scrollbar/perfect-scrollbar.css' %}" />
+    <link rel="stylesheet" href="{% static 'vendor/libs/typeahead-js/typeahead.css' %}" />
+{% endblock vendor_css %}
+
+{% block page_css %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'vendor/css/pages/page-index.css' %}" />
+{% endblock page_css %}
+
+{% block content %}
+    <h4 class="py-3 breadcrumb-wrapper mb-4">
+        <span class="text-muted fw-light">{% translate "Help" %} /</span> {% translate "Categories" %}
+    </h4>
+
+    <div class="row" id="categoryRowContent">
+        {% include "django_help/fragments/category_article_list.html" with current_category=current_category category_list=category_list articles_in_current_category=articles_in_current_category %}
+    </div>
+
+{% endblock %}

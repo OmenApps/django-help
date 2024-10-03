@@ -1,0 +1,13 @@
+{% load static %}
+{% load i18n %}
+
+{# Provide one of category, slug, tag, or path #}
+
+<button class="btn btn-primary"
+        hx-get="{% url 'django_help:get_articles' category=None slug=None tag=None %}"
+        hx-target="#htmx-dialog-lg"
+        type="button"
+        title="{% translate "Help" %}"
+>
+    {% translate "Help" %}
+</button>

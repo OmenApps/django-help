@@ -1,0 +1,185 @@
+{% load django_help_tags %}
+{% load i18n %}
+
+
+<div class="modal-content">
+
+    <div class="modal-header">
+        <h4 class="modal-title">
+            {% translate "Help Articles" %}:
+        </h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{% trans "Close" %}"></button>
+    </div>
+    <div class="modal-body">
+        {% if messages %}
+            <div>
+                <strong>{% translate "Messages" %}:</strong>
+                <ul>
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
+        <div id="accordionCustom" class="accordion mt-3">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="accordionCustom-{{ article.slug }}">
+                    <button type="button" class="accordion-button" data-bs-toggle="collapse" data-bs-target="#accordion-{{ article.slug }}" aria-expanded="true" aria-controls="accordion-{{ article.slug }}">
+                        <i class="{{ article.icon }}"></i>
+                        <span class="text-muted fw-light">{{ article.category.title }} /</span><span class="ms-2">{{ article.title }}</span>
+                    </button>
+                </h2>
+
+                <div id="accordion-{{ article.slug }}" class="accordion-collapse collapse show" data-bs-parent="#accordionCustom">
+                    <div class="card accordion-body">
+                        <div class="card-body">
+                            <p class="card-text">
+                                {{ article.article_content|markdown|safe }}
+                            </p>
+
+                            <div class="d-flex flex-column flex-sm-row align-items-sm-center justify-content-between border-bottom pb-3 mb-3 mt-5">
+                                <h6 class="m-0 mb-2 mb-sm-0">{% translate "Tags" %}</h6>
+                                <div class="d-flex flex-wrap gap-2">
+                                    {% for tag in article.tags.all %}
+                                        <span class="badge bg-primary"
+                                              data-hx-get="{% url 'django_help:get_articles' tag=tag.slug %}"
+                                              data-hx-target="#htmx-dialog-lg"
+                                              title="{{ tag.name }}"
+                                        >
+                                            {{ tag.name }}
+                                        </span>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <p class="card-text">
+                                <small class="text-muted">{% translate "Last updated" %} {{ article.modified }}</small>
+                            </p>
+
+                            {% if user.is_staff %}
+                                <div class="ui-bordered bg-light my-3">
+                                    <h5>{% translate "Tags" %}:</h5>
+                                    <p>{{ article.tags.all }}</p>
+
+                                    <h5>{% translate "Public" %}:</h5>
+                                    <p>{{ article.public|yesno:"Yes,No" }}</p>
+
+                                    <h5>{% translate "Created At" %}:</h5>
+                                    <p>{{ article.created }}</p>
+
+                                    {% if article.created_by %}
+                                        <h5>{% translate "Created By" %}:</h5>
+                                        <p>{{ article.created_by.email }}</p>
+                                    {% endif %}
+
+                                    {% if article.modified_by %}
+                                        <h5>{% translate "Modified By" %}:</h5>
+                                        <p>{{ article.modified_by.email }}</p>
+                                    {% endif %}
+                                </div>
+
+                                <br><br>
+
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <button class="btn btn-primary"
+                                            data-hx-get="{% url 'django_help:edit_article' article_slug=article.slug %}"
+                                            data-hx-target="#htmx-dialog-lg"
+                                            type="button"
+                                    >
+                                        {% translate "Edit" %}
+                                    </button>
+                                </div>
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            {% for item in articles %}
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="accordionCustom-{{ item.slug }}">
+                        <button type="button" class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#accordion-{{ item.slug }}" aria-controls="accordion-{{ item.slug }}">
+                            <i class="{{ item.icon }}"></i>
+                            <span class="text-muted fw-light">{{ item.category.title }} /</span><span class="ms-2">{{ item.title }}</span>
+                        </button>
+                    </h2>
+
+                    <div id="accordion-{{ item.slug }}" class="accordion-collapse collapse" data-bs-parent="#accordionCustom">
+                        <div class="card accordion-body">
+                            <div class="card-body">
+                                <p class="card-text">
+                                    {{ item.article_content|markdown|safe }}
+                                </p>
+
+                                <div class="d-flex flex-column flex-sm-row align-items-sm-center justify-content-between border-bottom pb-3 mb-3 mt-5">
+                                    <h6 class="m-0 mb-2 mb-sm-0">{% translate "Tags:" %}</h6>
+                                    <div class="d-flex flex-wrap gap-2">
+                                        {% for tag in item.tags.all %}
+                                            <span class="badge bg-primary"
+                                                  data-hx-get="{% url 'django_help:get_articles' tag=tag.slug %}"
+                                                  data-hx-target="#htmx-dialog-lg"
+                                                  title="{{ tag.name }}"
+                                            >
+                                                {{ tag.name }}
+                                            </span>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+
+                                <p class="card-text">
+                                    <small class="text-muted">{% translate "Last updated" %} {{ item.modified }}</small>
+                                </p>
+
+                                {% if user.is_staff %}
+                                    <div class="ui-bordered bg-light my-3">
+                                        <h5>{% translate "Tags" %}:</h5>
+                                        <p>{{ item.tags.all }}</p>
+
+                                        <h5>{% translate "Public" %}:</h5>
+                                        <p>{{ item.public|yesno:"Yes,No" }}</p>
+
+                                        <h5>{% translate "Created At" %}:</h5>
+                                        <p>{{ item.created }}</p>
+
+                                        {% if item.created_by %}
+                                            <h5>{% translate "Created By" %}:</h5>
+                                            <p>{{ item.created_by.email }}</p>
+                                        {% endif %}
+
+                                        {% if item.modified_by %}
+                                            <h5>{% translate "Modified By" %}:</h5>
+                                            <p>{{ item.modified_by.email }}</p>
+                                        {% endif %}
+                                    </div>
+
+                                    <br><br>
+
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <button class="btn btn-primary"
+                                                data-hx-get="{% url 'django_help:edit_article' article_slug=item.slug %}"
+                                                data-hx-target="#htmx-dialog-lg"
+                                                type="button"
+                                        >
+                                            {% translate "Edit" %}
+                                        </button>
+                                    </div>
+                                {% endif %}
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+    <div class="modal-footer">
+
+    </div>
+</div>

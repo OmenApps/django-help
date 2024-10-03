@@ -1,0 +1,26 @@
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+<form hx-post="{% url 'django_help:edit_article' article_slug=article.slug %}"
+      hx-target="#htmx-dialog-lg"
+      class="modal-content"
+      enctype="multipart/form-data"
+>
+    {% csrf_token %}
+
+    <div class="modal-header">
+        <h4 class="modal-title">
+            {% translate "Edit Article" %}
+        </h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{% trans "Close" %}"></button>
+    </div>
+    <div class="modal-body">
+        {% crispy form form.helper %}
+        <button type="submit" class="btn btn-primary pull-right">{% translate "Save" %}</button>
+        <br><br>
+    </div>
+    <div class="modal-footer">
+
+    </div>
+    {{ form.media }}
+</form>

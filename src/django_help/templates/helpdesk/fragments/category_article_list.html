@@ -1,0 +1,62 @@
+{% load i18n %}
+
+<!-- Categories -->
+<div class="col-xl-5 col-lg-5 col-md-5 mb-lg-0 mb-5">
+    <div class="nav-align-left">
+        <ul class="nav nav-pills w-100 gap-1">
+            {% for category in categories %}
+                <li class="nav-item">
+                    <a href="{% url 'django_help:category' category.slug %}"
+                       class="nav-link{% if current_category.slug == category.slug %} active{% endif %}"
+                    >
+                        {{ category.title }}
+                        <div class="badge bg-secondary rounded-pill ms-auto">{{ category.number_of_articles }}</div>
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+<!-- /Categories -->
+
+<!-- Article list -->
+<div class="col-xl-7 col-lg-7 col-md-7">
+    <div class="card card-action overflow-hidden">
+        <div class="card-body" id="articleCardBody">
+            <h4 class="d-flex align-items-center pb-4">
+                <span class="badge bg-label-secondary p-2 rounded me-3">
+                    <i class="fa-solid {% if current_category.icon %}{{ current_category.icon }}{% else %}fa-circle-info text-success{% endif %} fa-xl"></i>
+                </span>
+                {{ current_category.title }}
+            </h4>
+            <ul class="list-unstyled my-4">
+
+                {% for article in articles_in_current_category %}
+                    {% if articles_in_current_category|length == 0 %}
+                        <li class="mb-3">
+                            <p class="text-muted mb-0">{% translate "No articles found." %}</p>
+                        </li>
+                    {% else %}
+                        <li class="{% if not forloop.last %}mb-3{% endif %}">
+                            <span hx-get="{% url 'django_help:view_article' article_slug=article.slug %}"
+                                  hx-target="#htmx-dialog-lg"
+                                  hx-swap="innerHTML"
+                                  class="d-flex text-primary fw-semibold cursor-pointer"
+                            >
+                                <i class="fa-light fa-chevron-right text-muted me-3"></i>
+                                {{ article.title }}
+                            </span>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+
+            </ul>
+
+            <a class="btn btn-label-primary mt-3" href="{% url 'django_help:index' %}">
+                <i class="mdi mdi-chevron-left mdi-20px text-muted me-1"></i>
+                <span>{% translate "Back to Help" %}</span>
+            </a>
+        </div>
+    </div>
+</div>
+<!-- /Article list -->
