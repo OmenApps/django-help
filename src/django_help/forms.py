@@ -11,7 +11,7 @@ from markdownx.fields import MarkdownxFormField
 from markdownx.widgets import MarkdownxWidget
 from translated_fields.utils import language_code_formfield_callback
 
-from django_help.app_settings import REQUIRE_SECONDARY_LANGUAGES
+from django_help.app_settings import EXTRA_LANGUAGES
 from django_help.models import ArticleUpload
 from django_help.models import DjangoHelpArticle
 from django_help.models import RelevantPath
@@ -64,7 +64,7 @@ class DjangoHelpArticleForm(forms.ModelForm):
                     "rows": 5,
                 }
             )
-            for lang_code, lang_name in settings.LANGUAGES
+            for lang_code, _ in settings.LANGUAGES
         }
 
     def __init__(self, *args, **kwargs):
@@ -73,19 +73,18 @@ class DjangoHelpArticleForm(forms.ModelForm):
         # Dynamically create a `title_{lang_code}`, `subtitle_{lang_code}`, and `article_content_{lang_code}` field
         #   for each language.
         for lang_code, lang_name in settings.LANGUAGES:
-            # For each of the below, if REQUIRE_SECONDARY_LANGUAGES is False, we set required=False for all but the
-            #   language specified in settings.LANGUAGE_CODE
+            # For each of the below, if blank is not specifiedfor the language in EXTRA_LANGUAGES, default to required=True.
             self.fields[f"title_{lang_code}"] = forms.CharField(
                 label=f"Title ({lang_name})",
-                required=REQUIRE_SECONDARY_LANGUAGES or lang_code == settings.LANGUAGE_CODE,
+                required=EXTRA_LANGUAGES.get(lang_code, {}).get("blank", True),
             )
             self.fields[f"subtitle_{lang_code}"] = forms.CharField(
                 label=f"Subtitle ({lang_name})",
-                required=REQUIRE_SECONDARY_LANGUAGES or lang_code == settings.LANGUAGE_CODE,
+                required=EXTRA_LANGUAGES.get(lang_code, {}).get("blank", True),
             )
             self.fields[f"article_content_{lang_code}"] = MarkdownxFormField(
                 label=f"Article Content ({lang_name})",
-                required=REQUIRE_SECONDARY_LANGUAGES or lang_code == settings.LANGUAGE_CODE,
+                required=EXTRA_LANGUAGES.get(lang_code, {}).get("blank", True),
             )
 
         # tags should not be required

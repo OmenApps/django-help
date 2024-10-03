@@ -3,7 +3,6 @@
 Use the DJANGO_HELP_CONFIG setting to configure the app. For example:
 
 DJANGO_HELP_CONFIG = {
-    "REQUIRE_SECONDARY_LANGUAGES": True,
     "BASE_MANAGER": "myapp.models.MyManager",
     "BASE_QUERYSET": "myapp.models.MyQuerySet",
     "BASE_MODEL": "myapp.models.MyModel",
@@ -27,9 +26,6 @@ from django_help.utils.validation import user_authorized_to_view
 
 
 django_help_config = getattr(settings, "DJANGO_HELP_CONFIG", {})
-
-# Specifies whether we require that fields for secondary languages be filled out in forms.
-REQUIRE_SECONDARY_LANGUAGES = django_help_config.get("REQUIRE_SECONDARY_LANGUAGES", False)
 
 # Specifies the base form for all forms in the app.
 BASE_MANAGER = django_help_config.get("BASE_MANAGER", models.Manager)
