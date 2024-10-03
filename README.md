@@ -63,7 +63,7 @@ django-help is a powerful and flexible Django package that provides a multilingu
 
 ## Requirements
 
-- Python 3.9 or higher
+- Python 3.10 or higher
 - Django 4.2 or higher
 - Additional dependencies:
   - django-markdownx 4.0+: For Markdown editing and rendering

@@ -23,7 +23,7 @@ DJANGO_VERSIONS = [
 # PYTHON_STABLE_VERSION should be set to the latest stable Python version
 
 PYTHON_STABLE_VERSION = "3.12"
-PYTHON_VERSIONS = ["3.9", "3.10", "3.11", "3.12"]
+PYTHON_VERSIONS = ["3.10", "3.11", "3.12"]
 
 
 package = "django_help"
