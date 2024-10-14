@@ -183,3 +183,13 @@
 
     </div>
 </div>
+<script>
+    // Handle clicks on internal links.
+    document.addEventListener('click', function(event) {
+        if (event.target.classList.contains('internal-link')) {
+            event.preventDefault();
+            var slug = event.target.dataset.slug;
+            htmx.ajax('GET', '/help/article/' + slug + '/', {target:'#htmx-dialog-lg', swap:'innerHTML'});
+        }
+    });
+</script>
