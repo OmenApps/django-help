@@ -22,6 +22,7 @@ class RelevantPathForm(forms.ModelForm):
 
     class Meta:
         """Meta class for RelevantPathForm."""
+
         model = RelevantPath
         fields = ("path",)
 

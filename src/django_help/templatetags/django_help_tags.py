@@ -89,14 +89,14 @@ def markdown_format(text):
     def replace_internal_links(match):
         slug = match.group(1)
         title = match.group(2) if match.group(2) else slug
-        url = reverse('django_help:view_article', kwargs={'article_slug': slug})
+        url = reverse("django_help:view_article", kwargs={"article_slug": slug})
         return f'<a href="{url}" class="internal-link" data-slug="{slug}">{title}</a>'
 
     # Convert markdown to HTML
     html = md.markdown(text, extensions=["markdown.extensions.fenced_code"])
 
     # Replace internal links with custom format
-    pattern = r'\[\[([^\]|]+)(?:\|([^\]]+))?\]\]'
+    pattern = r"\[\[([^\]|]+)(?:\|([^\]]+))?\]\]"
     html = re.sub(pattern, replace_internal_links, html)
 
     return mark_safe(html)

@@ -24,5 +24,5 @@ Examples:
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("django_help.urls")),
-    path('markdownx/', include('markdownx.urls')),
+    path("markdownx/", include("markdownx.urls")),
 ]
