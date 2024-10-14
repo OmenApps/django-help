@@ -30,8 +30,6 @@ def article_to_markdown(article: DjangoHelpArticle) -> str:
         "intended_entity_type": article.intended_entity_type,
         "created": article.created.strftime("%Y-%m-%d %H:%M:%SZ"),
         "modified": article.modified.strftime("%Y-%m-%d %H:%M:%SZ"),
-        "created_by": str(article.created_by.id) if article.created_by else "",
-        "modified_by": str(article.modified_by.id) if article.modified_by else "",
         "relevant_paths": relevant_paths,
         "tags": tags,
     }

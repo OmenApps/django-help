@@ -38,7 +38,6 @@ def get_only_filters():
         f"title_{current_language_code}",
         f"subtitle_{current_language_code}",
         "slug",
-        "modified_by",
         "modified",
     ]
 
