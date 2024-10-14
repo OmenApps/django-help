@@ -21,6 +21,9 @@
 
 ## Overview
 
+> [!WARNING]
+> This project is under active development and not yet ready for production use.
+
 django-help is a powerful and flexible Django package that provides a multilingual knowledge base and help system for Django applications. Its standout features include multi-language support and seamless import/export functionality, making it an ideal solution for creating and managing help content across different languages and projects.
 
 ## Key Features
