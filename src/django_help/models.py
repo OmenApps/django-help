@@ -410,10 +410,10 @@ class RelevantPath(BASE_MODEL):
     """Stores a relevant path for an article.
 
     A relevant path is a path that is relevant to the article. For example, if the article is about
-    creating a new provider, then the relevant path might be /providers/create.
+    creating a new provider, then the relevant path might be `/providers/create`.
 
     Wildcards are supported. For example, if the article is about creating a new provider, then the relevant
-    path might be /providers/*.
+    path might be `/providers/*`.
     """
 
     path = models.CharField(
@@ -437,7 +437,7 @@ class RelevantPath(BASE_MODEL):
         ]
 
     def __str__(self):
-        return self.path
+        return str(self.path)
 
     @property
     def is_wildcard(self):

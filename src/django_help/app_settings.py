@@ -2,21 +2,23 @@
 
 Use the DJANGO_HELP_CONFIG setting to configure the app. For example:
 
-DJANGO_HELP_CONFIG = {
-    "BASE_MANAGER": "myapp.models.MyManager",
-    "BASE_QUERYSET": "myapp.models.MyQuerySet",
-    "BASE_MODEL": "myapp.models.MyModel",
-    "BASE_FOREIGN_KEY": "myapp.models.MyForeignKey",
-    "EXTRA_LANGUAGES": {
-        "es": {"blank": False},  # Spanish fields must be filled out.
-        "fr": {"blank": True},  # French fields can be left blank.
-    },
-    "AUTHORIZE_USER_TO_VIEW_ARTICLE": "myapp.utils.authorize_user_to_view_article",
-    "INTENDED_ENTITY_TYPE": {
-        "PERSON": ("person", "Person"),
-        "ORGANIZATION": ("organization", "Organization"),
-    },
-}
+.. code-block:: python
+
+    DJANGO_HELP_CONFIG = {
+        "BASE_MANAGER": "myapp.models.MyManager",
+        "BASE_QUERYSET": "myapp.models.MyQuerySet",
+        "BASE_MODEL": "myapp.models.MyModel",
+        "BASE_FOREIGN_KEY": "myapp.models.MyForeignKey",
+        "EXTRA_LANGUAGES": {
+            "es": {"blank": False},  # Spanish fields must be filled out.
+            "fr": {"blank": True},  # French fields can be left blank.
+        },
+        "AUTHORIZE_USER_TO_VIEW_ARTICLE": "myapp.utils.authorize_user_to_view_article",
+        "INTENDED_ENTITY_TYPE": {
+            "PERSON": ("person", "Person"),
+            "ORGANIZATION": ("organization", "Organization"),
+        },
+    }
 """
 
 from django.conf import settings
