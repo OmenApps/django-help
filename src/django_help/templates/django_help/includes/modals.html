@@ -1,0 +1,136 @@
+
+    {# Small Modal for htmx #}
+    <div id="htmx-modal-sm" class="modal fade" tabindex="-1" aria-hidden="true">
+        <div id="htmx-dialog-sm" class="modal-dialog modal-sm" role="document" hx-target="this">
+
+        </div>
+    </div>
+
+    {# Medium Modal for htmx #}
+    <div id="htmx-modal-md" class="modal fade" tabindex="-1" aria-hidden="true">
+        <div id="htmx-dialog-md" class="modal-dialog" role="document" hx-target="this">
+
+        </div>
+    </div>
+
+    {# Large Modal for htmx #}
+    <div id="htmx-modal-lg" class="modal fade" tabindex="-1" aria-hidden="true">
+        <div id="htmx-dialog-lg" class="modal-dialog modal-lg" role="document" hx-target="this">
+
+        </div>
+    </div>
+
+    {# Extra Large Modal for htmx #}
+    <div id="htmx-modal-xl" class="modal fade" tabindex="-1" aria-hidden="true">
+        <div id="htmx-dialog-xl" class="modal-dialog modal-xl" role="document" hx-target="this">
+
+        </div>
+    </div>
+
+
+    <script>
+        /* --- Small HTMX Modal --- */
+
+        const modalSmall = new bootstrap.Modal(document.getElementById("htmx-modal-sm"))
+
+        // Hide dialog if we are swapping in an empty response
+        htmx.on("htmx:beforeSwap", (e) => {
+            // Empty response targeting #dialog => hide the modal
+            if (e.detail.target.id === "htmx-dialog-sm" && !e.detail.xhr.response) {
+                modalSmall.hide()
+                e.detail.shouldSwap = false
+            }
+        })
+
+        // Show dialog when we swap data in
+        htmx.on("htmx:afterSwap", (e) => {
+            // Response targeting #dialog => show the modal
+            if (e.detail.target.id === "htmx-dialog-sm") {
+                modalSmall.show()
+            }
+        })
+
+        // Clear modal contents when a modal is hidden
+        htmx.on("hidden.bs.modal", () => {
+            document.getElementById("htmx-dialog-sm").innerHTML = ""
+        })
+
+
+        /* --- Medium HTMX Modal --- */
+
+        const modalMedium = new bootstrap.Modal(document.getElementById("htmx-modal-md"))
+
+        // Hide dialog if we are swapping in an empty response
+        htmx.on("htmx:beforeSwap", (e) => {
+            // Empty response targeting #dialog => hide the modal
+            if (e.detail.target.id === "htmx-dialog-md" && !e.detail.xhr.response) {
+                modalMedium.hide()
+                e.detail.shouldSwap = false
+            }
+        })
+
+        // Show dialog when we swap data in
+        htmx.on("htmx:afterSwap", (e) => {
+            // Response targeting #dialog => show the modal
+            if (e.detail.target.id === "htmx-dialog-md") {
+                modalMedium.show()
+            }
+        })
+
+        // Clear modal contents when a modal is hidden
+        htmx.on("hidden.bs.modal", () => {
+            document.getElementById("htmx-dialog-md").innerHTML = ""
+        })
+
+        /* --- Large HTMX Modal --- */
+
+        const modalLarge = new bootstrap.Modal(document.getElementById("htmx-modal-lg"))
+
+        // Hide dialog if we are swapping in an empty response
+        htmx.on("htmx:beforeSwap", (e) => {
+            // Empty response targeting #dialog => hide the modal
+            if (e.detail.target.id === "htmx-dialog-lg" && !e.detail.xhr.response) {
+                modalLarge.hide()
+                e.detail.shouldSwap = false
+            }
+        })
+
+        // Show dialog when we swap data in
+        htmx.on("htmx:afterSwap", (e) => {
+            // Response targeting #dialog => show the modal
+            if (e.detail.target.id === "htmx-dialog-lg") {
+                modalLarge.show()
+            }
+        })
+
+        // Clear modal contents when a modal is hidden
+        htmx.on("hidden.bs.modal", () => {
+            document.getElementById("htmx-dialog-lg").innerHTML = ""
+        })
+
+        /* --- Extra Large HTMX Modal --- */
+
+        const modalExtraLarge = new bootstrap.Modal(document.getElementById("htmx-modal-xl"))
+
+        // Hide dialog if we are swapping in an empty response
+        htmx.on("htmx:beforeSwap", (e) => {
+            // Empty response targeting #dialog => hide the modal
+            if (e.detail.target.id === "htmx-dialog-xl" && !e.detail.xhr.response) {
+                modalExtraLarge.hide()
+                e.detail.shouldSwap = false
+            }
+        })
+
+        // Show dialog when we swap data in
+        htmx.on("htmx:afterSwap", (e) => {
+            // Response targeting #dialog => show the modal
+            if (e.detail.target.id === "htmx-dialog-xl") {
+                modalExtraLarge.show()
+            }
+        })
+
+        // Clear modal contents when a modal is hidden
+        htmx.on("hidden.bs.modal", () => {
+            document.getElementById("htmx-dialog-xl").innerHTML = ""
+        })
+    </script>
