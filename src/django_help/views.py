@@ -112,7 +112,7 @@ def category(request: HttpRequest, category_slug: str) -> TemplateResponse:
 @login_required
 def view_article(request: HttpRequest, article_slug: str) -> TemplateResponse:
     """Uses htmx to load a specific article instance based on the slug."""
-    if request.htmx:  # noqa
+    if 'HTTP_HX_REQUEST' in request.META and request.META['HTTP_HX_REQUEST'] == 'true':
         context = {}
         template = "django_help/fragments/modal_content.html"
 
@@ -132,7 +132,6 @@ def view_article(request: HttpRequest, article_slug: str) -> TemplateResponse:
         return TemplateResponse(request, template, context)
     logger.error("Request to view article %s was not an htmx request", article_slug)
     raise Http404
-
 
 @login_required
 def get_articles(request: HttpRequest, *, category: str = None, slug: str = None, tag: str = None) -> TemplateResponse:
