@@ -1,4 +1,15 @@
-furo==2024.8.6
-sphinx==8.0.2
-sphinx-click==6.0.0
-myst-parser==4.0.0
+# Documentation dependencies
+Sphinx==7.1.2
+sphinx-rtd-theme==2.0.0
+sphinx-click==5.1.0
+myst-parser==2.0.0
+furo==2024.1.29
+
+# Django and related packages (for autodoc)
+Django==5.0.2
+django-markdownx==4.0.7
+django-translated-fields==0.13.0
+django-taggit==6.0.0
+python-frontmatter==1.1.0
+django-crispy-forms==2.1
+crispy-bootstrap5==2024.2

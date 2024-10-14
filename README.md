@@ -71,6 +71,7 @@ django-help is a powerful and flexible Django package that provides a multilingu
   - django-taggit 6.1+: For tagging functionality
   - python-frontmatter 1.1+: For parsing Markdown files with metadata
   - django-crispy-forms 2.3+: For enhanced form rendering
+  - crispy-bootstrap5 2024.2+: For Bootstrap 5 styling in crispy forms
 
 ## Installation
 
@@ -91,6 +92,7 @@ INSTALLED_APPS = [
     'markdownx',
     'taggit',
     'crispy_forms',
+    'crispy_bootstrap5',
 ]
 ```
 
@@ -192,6 +194,24 @@ from django.utils.translation import activate
 
 activate('es')  # Switch to Spanish
 # Your view logic here
+```
+
+### Display help content in your templates:
+
+```html
+{% load django_help_tags %}
+
+<!-- Display help button for the current path -->
+{% django_help_current_path %}
+
+<!-- Display help button for a specific category -->
+{% django_help_category "getting-started" %}
+
+<!-- Display help button for a specific article slug -->
+{% django_help_slug "how-to-reset-password" %}
+
+<!-- Display help button for a specific tag -->
+{% django_help_tag "account-management" %}
 ```
 
 ## Import/Export Functionality
