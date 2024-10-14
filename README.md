@@ -94,6 +94,21 @@ INSTALLED_APPS = [
 ]
 ```
 
+And add the django_help_tags to your `TEMPLATES` builtins:
+
+```python
+TEMPLATES = [
+    {
+        ...
+        'OPTIONS': {
+            'builtins': [
+                'django_help.templatetags.django_help_tags',
+            ],
+        },
+    },
+]
+```
+
 2. Include django-help URLs in your project's `urls.py`:
 
 ```python
