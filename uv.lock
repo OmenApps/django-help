@@ -377,6 +377,19 @@ toml = [
 ]
 
 [[package]]
+name = "crispy-bootstrap5"
+version = "2024.2"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "django" },
+    { name = "django-crispy-forms" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/75/45/af5c7a13742650b1187a1a6db5197577b57f2b1ca3a042c3b386ddfbebfc/crispy-bootstrap5-2024.2.tar.gz", hash = "sha256:7d1fa40c6faf472e30e85c72551a3d2c9eedbf0abfff920683315e4e6f670f2b", size = 23411 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/13/11/a1c22b4c803125901af7d2fa683f4c6eb14d511644da5fc0b45a0cb44cae/crispy_bootstrap5-2024.2-py3-none-any.whl", hash = "sha256:3867e320920a6ef156e94f9e0f06a80344c453e1b3bd96cd9dc0522ae9e9afb8", size = 24351 },
+]
+
+[[package]]
 name = "cryptography"
 version = "43.0.1"
 source = { registry = "https://pypi.org/simple" }
@@ -459,6 +472,7 @@ version = "2024.10.1"
 source = { editable = "." }
 dependencies = [
     { name = "click" },
+    { name = "crispy-bootstrap5" },
     { name = "django" },
     { name = "django-crispy-forms" },
     { name = "django-markdownx" },
@@ -500,6 +514,7 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "click", specifier = ">=8.1.7" },
+    { name = "crispy-bootstrap5", specifier = ">=2024.2" },
     { name = "django", specifier = ">=4.2" },
     { name = "django-crispy-forms", specifier = ">=2.3" },
     { name = "django-markdownx", specifier = ">=4.0.7" },

@@ -26,6 +26,7 @@ dependencies = [
     "django-taggit>=6.1.0",
     "python-frontmatter>=1.1.0",
     "django-crispy-forms>=2.3",
+    "crispy-bootstrap5>=2024.2",
 ]
 
 [project.urls]
