@@ -1,5 +1,7 @@
+{% load i18n %}
+
 <button class="btn rounded-pill btn-icon h-px-30 w-px-30"
-        data-hx-get="{% url 'django_help:get_articles' slug=slug %}"
+        data-hx-get="{% url 'django_help:get_articles' category=category %}"
         data-hx-target="#htmx-dialog-lg"
         type="button"
         title="{% translate title %}"

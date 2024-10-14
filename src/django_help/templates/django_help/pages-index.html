@@ -1,4 +1,4 @@
-{% extends layout_path %}
+{% extends "django_help/base.html" %}
 
 {% load static %}
 {% load i18n %}
@@ -94,7 +94,7 @@
                                                 <ul class="pagination justify-content-center">
                                                     <li class="page-item{% if not articles.has_previous %} disabled{% endif %}">
                                                         <a class="page-link"
-                                                           href="{% if articles.has_previous %}{% query_string page=articles.previous_page_number %}{% else %}#{% endif %}"
+                                                           href="{% if articles.has_previous %}{% querystring page=articles.previous_page_number %}{% else %}#{% endif %}"
                                                            aria-label="{% trans "Previous" %}"
                                                         >
                                                             <span aria-hidden="true">&laquo;</span>
@@ -103,7 +103,7 @@
                                                     {% for page in articles.paginator.page_range %}
                                                         <li class="page-item{% if page == articles.number %} active{% endif %}">
                                                             <a class="page-link"
-                                                               href="{% query_string page=page %}"
+                                                               href="{% querystring page=page %}"
                                                             >
                                                                 {{ page }}
                                                             </a>
@@ -111,7 +111,7 @@
                                                     {% endfor %}
                                                     <li class="page-item{% if not articles.has_next %} disabled{% endif %}">
                                                         <a class="page-link"
-                                                           href="{% if articles.has_next %}{% query_string page=articles.next_page_number %}{% else %}#{% endif %}"
+                                                           href="{% if articles.has_next %}{% querystring page=articles.next_page_number %}{% else %}#{% endif %}"
                                                            aria-label="{% trans "Next" %}"
                                                         >
                                                             <span aria-hidden="true">&raquo;</span>

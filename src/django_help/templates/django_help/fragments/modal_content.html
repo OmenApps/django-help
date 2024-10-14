@@ -68,15 +68,15 @@
                                     <h5>{% translate "Created At" %}:</h5>
                                     <p>{{ article.created }}</p>
 
-                                    {% if article.created_by %}
+                                    {% comment %} {% if article.created_by %}
                                         <h5>{% translate "Created By" %}:</h5>
                                         <p>{{ article.created_by.email }}</p>
-                                    {% endif %}
+                                    {% endif %} {% endcomment %}
 
-                                    {% if article.modified_by %}
+                                    {% comment %} {% if article.modified_by %}
                                         <h5>{% translate "Modified By" %}:</h5>
                                         <p>{{ article.modified_by.email }}</p>
-                                    {% endif %}
+                                    {% endif %} {% endcomment %}
                                 </div>
 
                                 <br><br>
@@ -150,10 +150,10 @@
                                             <p>{{ item.created_by.email }}</p>
                                         {% endif %}
 
-                                        {% if item.modified_by %}
+                                        {% comment %} {% if item.modified_by %}
                                             <h5>{% translate "Modified By" %}:</h5>
                                             <p>{{ item.modified_by.email }}</p>
-                                        {% endif %}
+                                        {% endif %} {% endcomment %}
                                     </div>
 
                                     <br><br>
