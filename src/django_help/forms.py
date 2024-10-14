@@ -21,6 +21,7 @@ class RelevantPathForm(forms.ModelForm):
     """Form for creating RelevantPath instances."""
 
     class Meta:
+        """Meta class for RelevantPathForm."""
         model = RelevantPath
         fields = ("path",)
 
@@ -70,10 +71,9 @@ class DjangoHelpArticleForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        # Dynamically create a `title_{lang_code}`, `subtitle_{lang_code}`, and `article_content_{lang_code}` field
-        #   for each language.
+        # Create `title_{lang_code}`, `subtitle_{lang_code}`, and `article_content_{lang_code}` for each language.
         for lang_code, lang_name in settings.LANGUAGES:
-            # For each of the below, if blank is not specifiedfor the language in EXTRA_LANGUAGES, default to required=True.
+            # For each below, if blank is not specified for the language in EXTRA_LANGUAGES, default to required=True.
             self.fields[f"title_{lang_code}"] = forms.CharField(
                 label=f"Title ({lang_name})",
                 required=EXTRA_LANGUAGES.get(lang_code, {}).get("blank", True),
@@ -150,7 +150,7 @@ class DjangoHelpArticleForm(forms.ModelForm):
 
 
 class ArticleUploadForm(forms.ModelForm):
-    """Form for uploading articles."""
+    """Form for uploading articles in admin."""
 
     class Meta:
         """Meta class for ArticleUploadForm."""

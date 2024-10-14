@@ -1,6 +1,7 @@
 """URL configuration for core project."""
 
 from django.contrib import admin
+from django.urls import include
 from django.urls import path
 
 
@@ -22,4 +23,6 @@ Examples:
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("", include("django_help.urls")),
+    path('markdownx/', include('markdownx.urls')),
 ]

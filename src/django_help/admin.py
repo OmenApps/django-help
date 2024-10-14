@@ -44,6 +44,37 @@ def export_articles(modeladmin, request, queryset):
     return export_articles_to_markdown_or_zip(queryset)
 
 
+@admin.register(DjangoHelpCategory)
+class DjangoHelpCategoryAdmin(TranslatedFieldAdmin, admin.ModelAdmin):
+    """Admin configuration for DjangoHelpCategory instances."""
+
+    list_display = (
+        f"title_{get_language()}",
+        "slug",
+        f"subtitle_{get_language()}",
+        "icon",
+        "intended_entity_type",
+        "public",
+        "created",
+        "modified",
+    )
+    list_filter = ("public", "intended_entity_type")
+    search_fields = (
+        *[f"title_{lang_code}" for lang_code in installed_languages],
+        *[f"subtitle_{lang_code}" for lang_code in installed_languages],
+        *[f"description_{lang_code}" for lang_code in installed_languages],
+        "slug",
+    )
+    readonly_fields = ("created", "modified")
+    fieldsets = (
+        (_("title"), {"fields": DjangoHelpCategory.title.fields}),
+        (_("subtitle"), {"fields": DjangoHelpCategory.subtitle.fields}),
+        (_("description"), {"fields": DjangoHelpCategory.description.fields}),
+        (_(""), {"fields": ["slug", "icon", "intended_entity_type", "public", "created", "modified"]}),
+    )
+    prepopulated_fields = {"slug": (f"title_{get_language()}",)}
+
+
 @admin.register(DjangoHelpArticle)
 class DjangoHelpArticleAdmin(TranslatedFieldAdmin, MarkdownxModelAdmin):
     """Admin configuration for DjangoHelpArticle instances."""
@@ -70,14 +101,14 @@ class DjangoHelpArticleAdmin(TranslatedFieldAdmin, MarkdownxModelAdmin):
         "slug",
         "tags",
     )
-    readonly_fields = ("created", "modified", "slug")
+    readonly_fields = ("created", "modified")
     inlines = [RelevantPathInline]
     actions = [export_articles]
     fieldsets = (
         (_("title"), {"fields": DjangoHelpArticle.title.fields}),
         (_("subtitle"), {"fields": DjangoHelpArticle.subtitle.fields}),
         (_("article_content"), {"fields": DjangoHelpArticle.article_content.fields}),
-        (_(""), {"fields": ["category", "icon", "public", "highlighted", "intended_entity_type", "tags"]}),
+        (_(""), {"fields": ["category", "slug", "icon", "public", "highlighted", "intended_entity_type", "tags"]}),
     )
     prepopulated_fields = {"slug": (f"title_{get_language()}",)}
 
@@ -103,34 +134,3 @@ class DjangoHelpArticleAdmin(TranslatedFieldAdmin, MarkdownxModelAdmin):
     def tag_list(self, obj):
         """Return a comma-separated list of tags for the object."""
         return ", ".join(o.name for o in obj.tags.all())
-
-
-@admin.register(DjangoHelpCategory)
-class DjangoHelpCategoryAdmin(TranslatedFieldAdmin, admin.ModelAdmin):
-    """Admin configuration for DjangoHelpCategory instances."""
-
-    list_display = (
-        f"title_{get_language()}",
-        "slug",
-        f"subtitle_{get_language()}",
-        "icon",
-        "intended_entity_type",
-        "public",
-        "created",
-        "modified",
-    )
-    list_filter = ("public", "intended_entity_type")
-    search_fields = (
-        *[f"title_{lang_code}" for lang_code in installed_languages],
-        *[f"subtitle_{lang_code}" for lang_code in installed_languages],
-        *[f"description_{lang_code}" for lang_code in installed_languages],
-        "slug",
-    )
-    readonly_fields = ("created", "modified", "slug")
-    fieldsets = (
-        (_("title"), {"fields": DjangoHelpCategory.title.fields}),
-        (_("subtitle"), {"fields": DjangoHelpCategory.subtitle.fields}),
-        (_("description"), {"fields": DjangoHelpCategory.description.fields}),
-        (_(""), {"fields": ["slug", "icon", "intended_entity_type", "public", "created", "modified"]}),
-    )
-    prepopulated_fields = {"slug": (f"title_{get_language()}",)}
